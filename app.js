@@ -18,6 +18,17 @@ app.get('/about', (req, res, next) => {
 	res.render('about')
 })
 
+app.get('/contact', (req, res, next) => {
+	res.render('contact')
+})
+
+app.get('/order', (req, res, next) => {
+	res.render('order')
+})
+
+app.get('/login', (req, res, next) => {
+	res.render('login')
+})
 
 
 
