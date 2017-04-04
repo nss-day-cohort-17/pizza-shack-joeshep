@@ -1,23 +1,24 @@
 extends partials/layout.pug
 
 block content
+	p Register
 
-    .heading
-        h1 Login
-        if msg
-            h2= msg
-    .login-form
+	.login-form
         form(method='POST')
-            .form-group
+        	.form-group
                 label(for='email')
-                input.form-control#email(type='text' name='email' placeholder='Email' required)
+                input.form-control#email(
+                type='text'
+                name='email'
+                placeholder='Email'
+                required)
             .form-group
                 label(for='password')
                 input.form-control#password(
                     type='text'
                     name='password'
-                    placeholder='Password'
+                    placeholder='*******'
                     required)
             .contact-form__submit
                 a.btn.btn-danger.btn-lg(href='/') Cancel
-                input.btn.btn-success.btn-lg(type='submit' value='Login')
+                input.btn.btn-success.btn-lg(type='submit' value='Register')
