@@ -3,6 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 const routes = require('./routes/')
 
@@ -15,11 +16,8 @@ app.locals.body.magic = "Foooooo!";
 
 // Middlewares
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(routes);
-
-app.get('/contact', (req, res, next) => {
-  res.render('contact', {page: 'Contact'});
-});
 
 app.get('/login', (req, res, next) => {
   res.render('login', {page: 'Login'});
