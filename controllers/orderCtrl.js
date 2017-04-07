@@ -30,6 +30,7 @@ module.exports.create = (req, res, err) => {
   Order.forge(req.body)
     .save()
     .then( (orderObj) => {
+      // Save a msg in a cookie whose value will be added to req
       req.flash('orderMsg', 'Thanks for your order!');
       res.redirect('/');
     })

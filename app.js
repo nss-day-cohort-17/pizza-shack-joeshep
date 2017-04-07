@@ -25,7 +25,7 @@ app.locals.body.magic = "Foooooo!";
 // Middlewares
 app.use(cookieParser('secretpizza'));
 app.use(session({cookie: {maxAge: 60000}, secret: 'secretpizza', resave: true, saveUninitialized: false}));
-app.use(flash()); 
+app.use(flash());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
   store: new KnexSessionStore({
@@ -37,20 +37,17 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'pizzashacksupersecretkey'
 }));
 
+require('./lib/passport-strategies')
+app.use(passport.initialize())
+app.use(passport.session())
 
-
-
+app.use( (req, res, next) => {
+  app.locals.email = req.user && req.user.email
+  next()
+})
 
 app.use(express.static('public'));
 app.use(routes);
-
-app.get('/login', (req, res, next) => {
-  res.render('login', {page: 'Login'});
-});
-
-app.get('/register', (req, res, next) => {
-  res.render('register', {page: 'Register'});
-});
 
 app.use((req, res) => {
   res.render('404');
