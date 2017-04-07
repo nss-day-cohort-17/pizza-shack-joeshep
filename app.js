@@ -4,7 +4,13 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const session = require('express-session');
+const KnexSessionStore = require('connect-session-knex')(session);
+const cookieParser = require('cookie-parser');
 const { cyan, red } = require('chalk');
+const flash = require('express-flash');
+const { knex } = require('./db/database');
 
 const routes = require('./routes/')
 
@@ -17,8 +23,25 @@ app.locals.body = {};
 app.locals.body.magic = "Foooooo!";
 
 // Middlewares
-app.use(express.static('public'));
+app.use(cookieParser('secretpizza'));
+app.use(session({cookie: {maxAge: 60000}, secret: 'secretpizza', resave: true, saveUninitialized: false}));
+app.use(flash()); 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({
+  store: new KnexSessionStore({
+    knex,
+    tablename: 'sessions'
+  }),
+  resave: false,
+  saveUninitialized: false,
+  secret: process.env.SESSION_SECRET || 'pizzashacksupersecretkey'
+}));
+
+
+
+
+
+app.use(express.static('public'));
 app.use(routes);
 
 app.get('/login', (req, res, next) => {
