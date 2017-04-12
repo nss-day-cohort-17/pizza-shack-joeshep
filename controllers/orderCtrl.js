@@ -2,18 +2,19 @@
 
 const Order = require('../models/order');
 const { knex } = require('../db/database');
-const Size = () => knex('sizes');
-const Topping = () => knex('toppings');
+const Size = require('../models/size');
+const Topping = require('../models/topping');
+
 const getToppings = () => 
-  Topping().select()
-  .then( (rows) => rows )
+  Topping.forge().fetchAll()
+  .then( (rows) => rows.toJSON() )
   .catch( (error) => {
     throw error
   });
 
 const getSizes = () => 
-  Size().select()
-  .then( (rows) => rows )
+  Size.forge().fetchAll()
+  .then( (rows) => rows.toJSON())
   .catch( (error) => {
     throw error
   });
